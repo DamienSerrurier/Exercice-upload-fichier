@@ -10,6 +10,67 @@
 </head>
 
 <body>
+
+
+
+
+    <div class="container flex-column d-flex align-content-center justify-content-center">
+
+        <p class="text-center h1 title mt-3">Veuillez choisir une image :</p>
+
+        <div class="d-flex align-content-center justify-content-center">
+        <img class="d-flex align-content-center justify-content-center" id="preview" src="">
+        </div>
+
+        <form class="m-auto d-flex align-content-center justify-content-center" action="index.php" method="post" enctype="multipart/form-data">
+
+            <div>            
+                <input class="m-3 input1" type="file" name="fileToUpload" id="fileToUpload">
+            </div>
+            <div class="button d-flex justify-content-end align-content-end">
+                <button class="btn btn-danger m-3 " id="submit" type="submit">UPLOAD</button>
+            </div>
+        </form>
+        
+            
+        
+    </div>
+
+    <?php
+    // Testons si le fichier a bien été envoyé et s'il n'y a pas d'erreur
+    if (isset($_FILES['fileToUpload']) and $_FILES['fileToUpload']['error'] == 0) {
+        // Testons si le fichier n'est pas trop gros
+        if ($_FILES['fileToUpload']['size'] <= 1024000) {
+            // Testons si l'extension est autorisée
+            $infosfichier = pathinfo($_FILES['fileToUpload']['name']);
+            $extension_upload = $infosfichier['extension'];
+            $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
+            if (in_array($extension_upload, $extensions_autorisees)) {
+                // On peut valider le fichier et le stocker définitivement
+
+                move_uploaded_file($_FILES['fileToUpload']['tmp_name'], 'img/' . uniqid($_FILES['fileToUpload']['name']));
+
+                echo "<script>alert(\"Votre dossier a bien été transféré !\")</script>";
+                
+            } else {
+                echo "Le dossier n'a pas été transmit.";
+            }
+        } else {
+            echo "la taille de votre fichier est trop grande";
+        }
+    } 
+    ?>
+
+<div class="m-auto d-flex align-content-center justify-content-center">
+<figure>
+        <audio
+    controls autoplay loop
+        src="img/KeenV_feat_Carla_-_Cest_bientot_Noel_Clip_officiel.mp3">
+    </audio>
+</figure>
+</div>
+
+
 <script type="text/javascript">
 /////////////////////////////////////////////////////////
 // Javascript made by http://peters1.dk/tools/snow.php //
@@ -83,71 +144,6 @@ SnowStart();
 
 
 
-
-
-
-
-
-
-
-
-
-
-    <div class="container flex-column d-flex align-content-center justify-content-center">
-
-        <p class="text-center h1 title mt-3">Veuillez choisir une image :</p>
-
-        <div class="d-flex align-content-center justify-content-center">
-        <img class="d-flex align-content-center justify-content-center" id="preview" src="">
-        </div>
-
-        <form class="m-auto d-flex align-content-center justify-content-center" action="index.php" method="post" enctype="multipart/form-data">
-
-            <div>            
-                <input class="m-3 input1" type="file" name="fileToUpload" id="fileToUpload">
-            </div>
-            <div class="button d-flex justify-content-end align-content-end">
-                <button class="btn btn-danger m-3 " id="submit" type="submit">UPLOAD</button>
-            </div>
-        </form>
-        
-            
-        
-    </div>
-
-    <?php
-    // Testons si le fichier a bien été envoyé et s'il n'y a pas d'erreur
-    if (isset($_FILES['fileToUpload']) and $_FILES['fileToUpload']['error'] == 0) {
-        // Testons si le fichier n'est pas trop gros
-        if ($_FILES['fileToUpload']['size'] <= 1024000) {
-            // Testons si l'extension est autorisée
-            $infosfichier = pathinfo($_FILES['fileToUpload']['name']);
-            $extension_upload = $infosfichier['extension'];
-            $extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png');
-            if (in_array($extension_upload, $extensions_autorisees)) {
-                // On peut valider le fichier et le stocker définitivement
-
-                move_uploaded_file($_FILES['fileToUpload']['tmp_name'], 'img/' . uniqid($_FILES['fileToUpload']['name']));
-
-                echo "<script>alert(\"Votre dossier a bien été transféré !\")</script>";
-                
-            } else {
-                echo "Le dossier n'a pas été transmit.";
-            }
-        } else {
-            echo "la taille de votre fichier est trop grande";
-        }
-    } 
-    ?>
-
-<div class="m-auto d-flex align-content-center justify-content-center">
-<figure>
-        <audio
-    controls autoplay loop
-        src="img/KeenV_feat_Carla_-_Cest_bientot_Noel_Clip_officiel.mp3">
-    </audio>
-</figure>
-</div>
 
 <script src="uploadPreview/script.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
